@@ -19,7 +19,14 @@ def get_top_three_articles():
 	c = db.cursor()
 
 	#get slug from path of log table and compare with the articles table slug, then get log counts for titles
-	c.execute("create view popular_articles as select count(slug) as views, title, author from (select split_part(path, '/article/', 2) as log_slug from log) as log_slug_table, articles where log_slug = articles.slug group by title, author order by count(slug) desc")
+	c.execute("""
+		create view popular_articles as 
+		select count(log.id) as views, title, author 
+			from log, articles 
+		where path = concat('/article/',slug) 
+			group by title, author 
+			order by views desc""")
+
 	c.execute("select * from popular_articles limit 3")
 
 	rows = c.fetchall()
