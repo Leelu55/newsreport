@@ -60,7 +60,7 @@ The query uses the **popular_articles** view, joins it with the authors table an
 
 Find days with more than 1% error requests:
 
-`SELECT ((num_error_logs * 100)::numeric/num_total_logs) AS error_ratio, 
+``SELECT ((num_error_logs * 100)::numeric/num_total_logs) AS error_ratio, 
 	total_date
 FROM
   (SELECT count(date(TIME)) AS num_total_logs,
@@ -78,7 +78,7 @@ FROM
 WHERE total_date = error_date
   AND ((num_error_logs * 100)::numeric/num_total_logs) > 1
 GROUP BY error_ratio,
-         total_date`
+         total_date`` 
 
 The query calculates the error ratio from 2 subselects, one finding the total requests per day and the other the error requests per day (by querying the status column, filtering for 4xx HTTP status codes). The results of these to subselects are used to calculate the ratio of errors to requests. All days with an error ratio > 1 are displayed. 
 
