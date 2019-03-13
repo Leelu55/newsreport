@@ -1,6 +1,6 @@
-# News Report Log Analysis Project for Full Stack Web Developer Nanodegree Program
+# News Report Log Analysis Project 
 
-This Python program analyses the provided PostgreSQL database **news** for answering the following questions:
+This Python program analyses the PostgreSQL database **news** provided in context with the [Full Stack Web Developer Nanodegree Program](https://eu.udacity.com/course/full-stack-web-developer-nanodegree--nd004) for answering the following questions:
 
 - What are the most popular three articles of all time?
 - Who are the most popular article authors of all time? 
