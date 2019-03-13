@@ -1,4 +1,4 @@
-#h1 News Report Log Analysis Project for Full Stack Web Developer Nanodegree Program
+# News Report Log Analysis Project for Full Stack Web Developer Nanodegree Program
 
 This Python program analyses the provided PostgreSQL database **news** for answering the following questions:
 
@@ -6,17 +6,17 @@ This Python program analyses the provided PostgreSQL database **news** for answe
 - Who are the most popular article authors of all time? 
 - On which days did more than 1% of requests lead to errors?
 
-#h2 Getting Started
+## Getting Started
 
 1. Download the **news.sql** file, uzip it and run `psql -d news -f newsdata.sql` to import the data.
 2. Copy the Python Script **newsreport.py** into the directory of the **news** database. 
 3. Run `python3 newsreport.py` to get the analysis of the database for the given questions.
 
-#h2 Documentation
+## Documentation
 
 The program runs three functions, each of them answering one of the questions by opening or reusing a connection to the news database and executing an SQL query.
 
-#h3 get_top_three_articles() 
+### get_top_three_articles() 
 
 1. Create a popular articles view:
 
@@ -42,7 +42,7 @@ This query
 FROM popular_articles
 LIMIT 3`
 
-#h3 get_top_authors()
+### get_top_authors()
 
 Display the most popular authors:
 
@@ -56,7 +56,7 @@ ORDER BY count(views) DESC`
 
 The query uses the **popular_articles** view, joins it with the authors table and aggregates views per author.
 
-#h3 get_high_error_days()
+### get_high_error_days()
 
 Find days with more than 1% error requests:
 
@@ -82,7 +82,7 @@ GROUP BY error_ratio,
 
 The query calculates the error ratio from 2 subselects, one finding the total requests per day and the other the error requests per day (by querying the status column, filtering for 4xx HTTP status codes). The results of these to subselects are used to calculate the ratio of errors to requests. All days with an error ratio > 1 are displayed. 
 
-#h2 Common Usage
+## Common Usage
 
 `newsreport$ python3 newsreport.py
 
