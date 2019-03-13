@@ -20,7 +20,8 @@ The program runs three functions, each of them answering one of the questions by
 
 1. Create a popular articles view:
 
-```CREATE VIEW popular_articles AS
+```
+CREATE VIEW popular_articles AS
 SELECT count(log.id) AS views,
        title,
        author
@@ -29,7 +30,8 @@ FROM log,
 WHERE PATH = concat('/article/', slug)
 GROUP BY title,
          author
-ORDER BY views DESC```
+ORDER BY views DESC
+```
 
 This query 
 
