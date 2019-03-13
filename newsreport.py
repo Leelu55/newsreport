@@ -1,8 +1,6 @@
 # report tool code
-
 import psycopg2
 import datetime
-import bleach
 
 DBNAME = "news"
 _connection = None
