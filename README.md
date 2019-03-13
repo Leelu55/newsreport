@@ -29,7 +29,11 @@ FROM log,
 WHERE PATH = concat('/article/', slug)
 GROUP BY title,
          author
+<<<<<<< HEAD
 ORDER BY views DESC```
+=======
+ORDER BY views DESC``` 
+>>>>>>> 802ac936d09f2d435c1344557287bad3ccf97418
 
 This query 
 
