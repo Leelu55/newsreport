@@ -7,6 +7,7 @@ import bleach
 DBNAME = "news"
 _connection = None
 
+#establish new databas connection if it doesn't exist yet, otherwise return existing
 def get_connection():
     global _connection
     if not _connection:
@@ -31,14 +32,16 @@ def get_top_three_articles():
 
 	rows = c.fetchall()
 	for row in rows:
-		print(row[0],row[1])
+		print("\"{0:s}\" —  {1:d} views".format(row[1],row[0]))
+
+	print("\n")
 
 def get_top_authors():
 
 	db = get_connection()
 	c = db.cursor()
 
-	# use popular_articles view to join with authors table and aggregate the article views for each author
+	# use popular_articles view to join with authors table and aggregate the article views for each author with sum
 	c.execute("""
 		select sum(views), authors.name 
 			from popular_articles, authors 
@@ -48,20 +51,23 @@ def get_top_authors():
 
 	rows = c.fetchall()
 	for row in rows:
-		print(row[0], row[1])
+		print("{0:s} — {1:f} views".format(row[1], row[0]))
+
+	print("\n")
 
 def get_high_error_days():
 	db = get_connection()
 	c = db.cursor()
 
+	#agrregate total logs per day and error logs per day with two subselects, from joining total_log_view and error_per_date_view select days where ratio of error logs > 1%
 	c.execute("""
-		select error_per_date_view.error_logs as error, total_date
+		select ((error_per_date_view.error_logs * 100)::numeric/total_log_view.total_logs) as error_ratio, total_date
 			from
 		(
-		select count(date(time)) as total_logs, date(time) as total_date
-					from log 
-				group by date(time)
-				order by date(time)
+			select count(date(time)) as total_logs, date(time) as total_date
+				from log 
+			group by date(time)
+			order by date(time)
 		) as total_log_view, 
 		(
 			select count(date(time)) as error_logs, date(time) as error_date
@@ -70,13 +76,13 @@ def get_high_error_days():
 				group by date(time)
 				order by count(date(time))
 		) as error_per_date_view
-		where total_date = error_date and  ((error_per_date_view.error_logs * 100)::numeric/total_log_view.total_logs) > 1
-			group by error, total_date
+		where total_date = error_date and ((error_per_date_view.error_logs * 100)::numeric/total_log_view.total_logs) > 1
+			group by error_ratio, total_date
 		""")
 
 	rows = c.fetchall()
 	for row in rows:
-		print(row[0], row[1])
+		print("{0:s} — {1:f}% errors".format(row[1].strftime('%B %d, %Y'), round(row[0],2)))
 
 get_top_three_articles()
 get_top_authors()
