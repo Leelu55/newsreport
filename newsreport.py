@@ -61,22 +61,22 @@ def get_high_error_days():
 
 	#agrregate total logs per day and error logs per day with two subselects, from joining total_log_view and error_per_date_view select days where ratio of error logs > 1%
 	c.execute("""
-		select ((error_per_date_view.error_logs * 100)::numeric/total_log_view.total_logs) as error_ratio, total_date
+		select ((num_error_logs * 100)::numeric/num_total_logs) as error_ratio, total_date
 			from
 		(
-			select count(date(time)) as total_logs, date(time) as total_date
+			select count(date(time)) as num_total_logs, date(time) as total_date
 				from log 
 			group by date(time)
 			order by date(time)
 		) as total_log_view, 
 		(
-			select count(date(time)) as error_logs, date(time) as error_date
+			select count(date(time)) as num_error_logs, date(time) as error_date
 				from log 
 			where status like '4%'
 				group by date(time)
 				order by count(date(time))
 		) as error_per_date_view
-		where total_date = error_date and ((error_per_date_view.error_logs * 100)::numeric/total_log_view.total_logs) > 1
+		where total_date = error_date and ((num_error_logs * 100)::numeric/num_total_logs) > 1
 			group by error_ratio, total_date
 		""")
 
