@@ -6,11 +6,31 @@ This Python program analyses the PostgreSQL database **news** provided in contex
 - Who are the most popular article authors of all time? 
 - On which days did more than 1% of requests lead to errors?
 
+## Dependencies
+
+The Program uses the Python3 Python release and Psycopg2 PostgreSQL adapter for Python 
+
+1. Install [Python3](https://www.python.org/downloads/release/python-372/) in the latest version if you don't have it yet. 
+You can check for your Python version with ```python -V```
+
+**Installation on Ubuntu:**
+
+``` sudo add-apt-repository ppa:jonathonf/python-3.6
+    sudo apt-get update
+    sudo apt-get install python3.6
+```
+
+2. Install [Psycopg2](http://initd.org/psycopg/)
+
+**Installation on Ubuntu with Python3**
+
+```sudo apt install libpq-dev python3-dev```
+
 ## Getting Started
 
-1. Download the **news.sql** file, uzip it and run `psql -d news -f newsdata.sql` to import the data.
+1. Download the [news.sql](https://d17h27t6h515a5.cloudfront.net/topher/2016/August/57b5f748_newsdata/newsdata.zip) file, uzip it and run `psql -d news -f newsdata.sql` to import the data.
 2. Copy the Python Script **newsreport.py** into the directory of the **news** database. 
-3. Run `python3 newsreport.py` to get the analysis of the database for the given questions.
+4. Run `python3 newsreport.py` to get the analysis of the database for the given questions.
 
 ## Documentation
 
@@ -32,8 +52,6 @@ GROUP BY title,
          author
 ORDER BY views DESC
 ```
-
-This query 
 
 - joins the log and the articles database matching the log path (f.ex. _/article/media-obsessed-with-bears_) to the article slug (_media-obsessed-with-bears_) by concatenating the slug with _/article/_
 - agrregates the logs by counting all views for an article (f.ex. _/article/candidate-is-jerk'_ has 338647 views)
@@ -59,8 +77,7 @@ WHERE popular_articles.author = authors.id
 GROUP BY name
 ORDER BY count(views) DESC
 ```
-
-The query uses the **popular_articles** view, joins it with the authors table and aggregates views per author.
+Uses the **popular_articles** view, joins it with the authors table and aggregates views per author.
 
 ### get_high_error_days()
 
@@ -87,8 +104,7 @@ WHERE total_date = error_date
 GROUP BY error_ratio,
          total_date
 ```
-
-The query calculates the error ratio from 2 subselects, one finding the total requests per day and the other the error requests per day (by querying the status column, filtering for 4xx HTTP status codes). The results of these to subselects are used to calculate the ratio of errors to requests. All days with an error ratio > 1 are displayed. 
+Calculates the error ratio from 2 subselects, one finding the total requests per day and the other the error requests per day (by querying the status column, filtering for 4xx HTTP status codes). The results of these to subselects are used to calculate the ratio of errors to requests. All days with an error ratio > 1 are displayed. 
 
 ## Common Usage
 

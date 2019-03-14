@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import psycopg2
-import datetime
 
 DBNAME = "news"
 _connection = None
@@ -71,13 +70,13 @@ def get_high_error_days():
                 total_date
             from
         (
-            select count(date(time)) as num_total_log, date(time) as total_date
+            select count(date(time)) as num_total_logs, date(time) as total_date
                 from log
             group by date(time)
             order by date(time)
         ) as total_log_view,
         (
-            select count(date(time)) as num_error_log, date(time) as error_date
+            select count(date(time)) as num_error_logs, date(time) as error_date
                 from log
             where status like '4%'
                 group by date(time)
