@@ -10,7 +10,7 @@ This Python program analyses the PostgreSQL database **news** provided in contex
 
 The Program uses the Python3 Python release and Psycopg2 PostgreSQL adapter for Python 
 
-### 1. Install [Python3](https://www.python.org/downloads/release/python-372/) in the latest version if you don't have it yet. 
+#### 1. Install [Python3](https://www.python.org/downloads/release/python-372/) in the latest version if you don't have it yet. 
 You can check for your Python version with ```python -V```
 
 **Installation on Ubuntu:**
@@ -20,7 +20,7 @@ You can check for your Python version with ```python -V```
     sudo apt-get install python3.6
 ```
 
-### 2. Install [Psycopg2](http://initd.org/psycopg/)
+#### 2. Install [Psycopg2](http://initd.org/psycopg/)
 
 **Installation on Ubuntu with Python3**
 
